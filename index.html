@@ -1,0 +1,472 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>𐌌Ꝋ𐌉𐌔𐌄𐌔 𐌂𐌀𐌁𐌐𐌀𐌋
+    </title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #333333;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-top {
+            background-color: #ffffff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 15px;
+            height: 60px;
+            position: relative; /* Para posicionar el texto centrado */
+        }
+
+        .header-top-text {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #000000; /* Negro para contraste con fondo blanco */
+            font-size: 45px; /* Edita este valor para cambiar el tamaño del texto en header-top */
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .header-bottom {
+            background-color: #000000;
+            padding: 15px 20px;
+            height: 70px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            position: relative; /* Para posicionar el texto centrado */
+        }
+
+        .header-bottom-text {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffffff; /* Blanco para contraste con fondo negro */
+            font-size: 30px; /* Edita este valor para cambiar el tamaño del texto en header-bottom */
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .logo {
+            position: absolute;
+            top: 7px;
+            left: 30px;
+            width: 75px; /* Ancho fijo para mantener la consistencia */
+            height: 75px; /* Alto fijo para mantener la consistencia */
+            
+        }
+
+        .logo-container {
+            position: relative;
+            width: 150%;
+            height: 150%;
+        }
+
+        .logo-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Asegura que la imagen no se distorsione */
+            opacity: 1;
+            transition: opacity 1s ease-in-out; /* Transición suave de 1 segundo */
+            cursor: pointer;
+        }
+
+        .logo-img.hidden {
+            opacity: 0; /* Oculta la imagen no activa */
+        }
+
+        .instagram img {
+            height: 30px;
+            cursor: pointer;
+            margin-right: 13px;
+        }
+
+        .language-selector {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-toggle {
+            font-weight: bold;
+            color: #666666;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dropdown-toggle::after {
+            content: '⬇';
+            font-size: 12px;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            z-index: 1000;
+        }
+
+        .dropdown-menu li {
+            padding: 8px 12px;
+            color: #666666;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .dropdown-menu li:hover {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .language-selector:hover .dropdown-menu {
+            display: block;
+        }
+
+        .contact-button {
+            background-color: #f5af24;
+            color: #000000;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-button::before {
+            content: '✉️';
+            font-size: 16px;
+            margin-left: -5px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #000000;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            color: #ffffff;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 10px;
+        }
+
+        .modal-content form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .modal-content input,
+        .modal-content textarea {
+            background-color: #000000;
+            color: #ffffff;
+            border: 1px solid #ffffff;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .modal-content textarea {
+            height: 150px;
+            resize: none;
+        }
+
+        .modal-content .form-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-content .form-row input {
+            flex: 1;
+        }
+
+        .modal-content button[type="submit"] {
+            background-color: #f2b63f;
+            color: #ffffff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .modal-content .close-button {
+            background-color: transparent;
+            color: #ffffff;
+            font-size: 20px;
+            border: none;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+        main {
+            margin-top: 150px; /* Ajustado para más separación con el encabezado */
+            flex: 1;
+            padding: 20px;
+            color: #ffffff;
+            border: 2px solid #ffffff; /* Borde blanco para recuadrar */
+            border-radius: 10px; /* Bordes redondeados para un look suave */
+            width: 100%;
+            max-width: 1200px; /* Ancho máximo para consistencia */
+            margin-left: auto;
+            margin-right: auto; /* Centrado horizontal */
+        }
+
+        footer {
+            background-color: #1c2526;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 0;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <div class="header-top-text">𐌌Ꝋ𐌉𐌔𐌄𐌔 𐌂𐌀𐌁𐌐𐌀𐌋</div>
+            <div class="language-selector">
+                <div class="dropdown-toggle" id="language-toggle">EN</div>
+                <ul class="dropdown-menu" id="language-menu">
+                    <li onclick="changeLanguage('es')">Español</li>
+                    <li onclick="changeLanguage('en')">English</li>
+                    <li onclick="changeLanguage('it')">Italiano</li>
+                    <li onclick="changeLanguage('pt')">Português</li>
+                </ul>
+            </div>
+            <div class="instagram">
+                <a href="https://www.instagram.com/moises25__" target="_blank">
+                    <img src="images/insta.png" alt="Instagram">
+                </a>
+            </div>
+        </div>
+        <div class="header-bottom">
+            <div class="header-bottom-text">𐌁𐌀𐌐𐌉𐌔𐌕𐌀</div>
+            <button class="contact-button" id="contact-button">Contact</button>
+        </div>
+        <div class="logo">
+            <a href="index.html">
+                <div class="logo-container">
+                    <img src="images/logo1.PNG" alt="Logo 1" class="logo-img" id="logo1">
+                    <img src="images/logo2.PNG" alt="Logo 2" class="logo-img hidden" id="logo2">
+                </div>
+            </a>
+        </div>
+    </header>
+    <div class="modal" id="contact-modal">
+        <div class="modal-content">
+            <button class="close-button" onclick="closeModal()">×</button>
+            <h2 id="modal-title">Contact Me</h2>
+            <p id="modal-email">My email: moisseess25@gmail.com</p>
+            <form id="contact-form">
+                <div class="form-row">
+                    <input type="text" id="name" placeholder="Your name" required>
+                    <input type="email" id="email" placeholder="Your email" required>
+                </div>
+                <input type="tel" id="phone" placeholder="Your phone (optional)">
+                <textarea id="message" placeholder="Your message" required></textarea>
+                <button type="submit" id="send-button">Send Message</button>
+            </form>
+        </div>
+    </div>
+    <main>
+        <h1 id="welcome-text">Welcome to the Website</h1>
+        <p id="content-text">This is the main content area. You can add more content here.</p>
+        <p id="lorem-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    </main>
+    <footer>
+        <p id="footer-text">© 2025 My Website. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Función para alternar las imágenes del logo
+        function toggleLogo() {
+            const logo1 = document.getElementById('logo1');
+            const logo2 = document.getElementById('logo2');
+            
+            if (logo1.classList.contains('hidden')) {
+                logo1.classList.remove('hidden');
+                logo2.classList.add('hidden');
+            } else {
+                logo1.classList.add('hidden');
+                logo2.classList.remove('hidden');
+            }
+        }
+
+        // Establece un intervalo para cambiar el logo cada 5 segundos
+        setInterval(toggleLogo, 5000);
+
+        // Objeto con traducciones para cada idioma
+        const translations = {
+            es: {
+                welcome: "Bienvenido al Sitio Web",
+                content: "Esta es el área de contenido principal. Puedes agregar más contenido aquí.",
+                footer: "© 2025 Mi Sitio Web. Todos los derechos reservados.",
+                contact: "Contacto",
+                modalTitle: "Contáctame",
+                modalEmail: "Mi correo: moisseess25@gmail.com",
+                namePlaceholder: "Tu nombre",
+                emailPlaceholder: "Tu correo",
+                phonePlaceholder: "Tu teléfono (opcional)",
+                messagePlaceholder: "Tu mensaje",
+                sendButton: "Enviar Mensaje"
+            },
+            en: {
+                welcome: "Welcome to the Website",
+                content: "This is the main content area. You can add more content here.",
+                footer: "© 2025 My Website. All rights reserved.",
+                contact: "Contact",
+                modalTitle: "Contact Me",
+                modalEmail: "My email: moisseess25@gmail.com",
+                namePlaceholder: "Your name",
+                emailPlaceholder: "Your email",
+                phonePlaceholder: "Your phone (optional)",
+                messagePlaceholder: "Your message",
+                sendButton: "Send Message"
+            },
+            it: {
+                welcome: "Benvenuto al Sito Web",
+                content: "Questa è l'area di contenuto principale. Puoi aggiungere più contenuti qui.",
+                footer: "© 2025 Il Mio Sito Web. Tutti i diritti riservati.",
+                contact: "Contatto",
+                modalTitle: "Contattami",
+                modalEmail: "La mia email: moisseess25@gmail.com",
+                namePlaceholder: "Il tuo nome",
+                emailPlaceholder: "La tua email",
+                phonePlaceholder: "Il tuo telefono (opzionale)",
+                messagePlaceholder: "Il tuo messaggio",
+                sendButton: "Invia Messaggio"
+            },
+            pt: {
+                welcome: "Bem-vindo ao Site",
+                content: "Esta é a área de conteúdo principal. Você pode adicionar mais conteúdo aqui.",
+                footer: "© 2025 Meu Site. Todos os direitos reservados.",
+                contact: "Contato",
+                modalTitle: "Contacte-me",
+                modalEmail: "Meu email: moisseess25@gmail.com",
+                namePlaceholder: "Seu nome",
+                emailPlaceholder: "Seu email",
+                phonePlaceholder: "Seu telefone (opcional)",
+                messagePlaceholder: "Sua mensagem",
+                sendButton: "Enviar Mensagem"
+            }
+        };
+
+        // Función para cambiar el idioma de los textos
+        function changeLanguage(lang) {
+            document.getElementById("welcome-text").textContent = translations[lang].welcome;
+            document.getElementById("content-text").textContent = translations[lang].content;
+            document.getElementById("footer-text").textContent = translations[lang].footer;
+            document.getElementById("language-toggle").textContent = lang.toUpperCase();
+            document.getElementById("contact-button").textContent = translations[lang].contact;
+            document.getElementById("modal-title").textContent = translations[lang].modalTitle;
+            document.getElementById("modal-email").textContent = translations[lang].modalEmail;
+            document.getElementById("name").placeholder = translations[lang].namePlaceholder;
+            document.getElementById("email").placeholder = translations[lang].emailPlaceholder;
+            document.getElementById("phone").placeholder = translations[lang].phonePlaceholder;
+            document.getElementById("message").placeholder = translations[lang].messagePlaceholder;
+            document.getElementById("send-button").textContent = translations[lang].sendButton;
+        }
+
+        // Establece el idioma inicial al cargar la página
+        changeLanguage('en');
+
+        // Funciones para abrir y cerrar el modal
+        function openModal() {
+            document.getElementById("contact-modal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("contact-modal").style.display = "none";
+        }
+
+        // Evento para abrir el modal al hacer clic en el botón de contacto
+        document.getElementById("contact-button").addEventListener("click", openModal);
+
+        // Evento para cerrar el modal al hacer clic fuera del contenido
+        document.getElementById("contact-modal").addEventListener("click", function(event) {
+            if (event.target === this) {
+                closeModal();
+            }
+        });
+
+        // Evento para enviar el formulario (simulación)
+        document.getElementById("contact-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const phone = document.getElementById("phone").value;
+            const message = document.getElementById("message").value;
+            console.log("Enviando mensaje:");
+            console.log("Nombre:", name);
+            console.log("Correo:", email);
+            console.log("Teléfono:", phone || "No proporcionado");
+            console.log("Mensaje:", message);
+            console.log("Destinatario: moisseess25@gmail.com");
+            alert("Mensaje enviado (simulado). Revisa la consola para los detalles.");
+            closeModal();
+            this.reset();
+        });
+    </script>
+</body>
+</html>
